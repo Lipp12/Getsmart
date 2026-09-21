@@ -1,0 +1,15 @@
+# Nixpacks configuration for Railway.
+#
+# By default, Nixpacks' Laravel provider will run `php artisan migrate --force`
+# as part of the container's start phase. This causes the app to crash on
+# boot if the database credentials (DB_HOST/DB_USERNAME/DB_PASSWORD/etc.) are
+# not yet configured, since Laravel falls back to hardcoded defaults
+# (e.g. the `forge` user) that don't exist on Railway's MySQL instance.
+#
+# To let the app boot independently of database availability, we explicitly
+# define the start command here and intentionally omit the automatic
+# migration step. Run migrations on demand instead, e.g.:
+#   railway run php artisan migrate --force
+
+[start]
+cmd = "php artisan serve --host 0.0.0.0 --port $PORT"
